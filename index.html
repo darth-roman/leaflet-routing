@@ -13,7 +13,18 @@
     
     <div id="map"></div>
     <div id="map-control-panel">
+        <form id="form">
+            <div class="form-field">
+                <label>Start Place</label>
+                <input type="text">
+            </div>
+            <div class="form-field">
+                <label>Arrival Place</label>
+                <input type="text">
+            </div>
 
+            <button type="submit" class="form-field">Route!</button>
+        </form>
     </div>
 
 
@@ -24,7 +35,8 @@
     </script>
 
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
+    <!-- <script src="lrm-graphhopper-1.2.0/src/L.Routing.GraphHopper.js"></script>
+    <script src="lrm-graphhopper-1.2.0/examples/Control.Geocoder.js"></script> -->
     <script src="main.js"></script>
 </body>
 </html>
