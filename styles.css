@@ -20,3 +20,26 @@ body{
     flex-direction: column;
     margin: 5px;
 }
+
+#map form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0;
+}
+#search{
+    position: relative;
+    z-index: 1000;
+    width: 75%;
+    padding: 10px;
+}
+#map form button{
+    position: relative;
+    z-index: 1000;
+    margin: 0 5px;
+    border: solid #87CEEB 1px;
+    border-radius: 50px;
+    background-color: #87CEEB;
+    color: black;
+    padding: 10px;
+}

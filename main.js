@@ -1,17 +1,11 @@
-const map = L.map('map').setView([51.505, -0.09], 13)
+    const map = L.map('map').setView([51.505, -0.09], 13)
 
-// L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     maxZoom: 19,
-//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-// }).addTo(map);
-
-// L.Routing.control({
-//     waypoints: [
-//       L.latLng(57.74, 11.94),
-//       L.latLng(57.6792, 11.949)
-//     ]
-//   }).addTo(map);
-
+    // DOM
+    const searchQuery = document.getElementById('search')
+    const searchBtn = document.getElementById('search-btn')
+    
+    console.log(searchQuery, searchQuery.value);
+    // Method definition section
 
   const initMap = ({mapTile, mapAttribution, zoom = 13} = {}) => {
     L.tileLayer(mapTile, {
@@ -19,14 +13,6 @@ const map = L.map('map').setView([51.505, -0.09], 13)
         attribution: mapAttribution
     }).addTo(map)
 
-    console.log(mapTile);
-
-    // L.Routing.control({
-    //     waypoints: [
-    //       L.latLng(57.74, 11.94),
-    //       L.latLng(57.6792, 11.949)
-    //     ]
-    //   }).addTo(map);
     
   }
 
@@ -36,16 +22,48 @@ const map = L.map('map').setView([51.505, -0.09], 13)
         waypoints
       }).addTo(map);
 
-      console.log(waypoints);
+      console.log('Help');
   }
+
+
+  // Methods calling section
 
   initMap({
     mapTile: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     mapAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   })
 
-  initRouting({waypoints: [
-    L.latLng(57.74, 11.94),
-    L.latLng(57.6792, 11.949)
-  ]})
+//   initRouting({waypoints: [
+//     L.latLng(57.74, 11.94),
+//     L.latLng(57.6792, 11.949)
+//   ]})
  
+
+  // sandbox
+//   const input = document.getElementsByClassName('glass')[0]
+//   const provider = GeoSearch.OpenStreetMapProvider()
+//   const result = await provider.search({query: input.value})
+
+  // const query_addr = 'Paris'
+  searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    const promise = provider.search({
+        query: searchQuery.value
+      })
+    
+      promise.then((value) => {
+        const xCoor = value[0].x
+        const yCoor = value[0].y
+        const label = value[0].label
+        const marker = L.marker([yCoor, xCoor]).addTo(map)
+        marker.bindPopup("<b>Found location</b><br>" + label).openPopup();
+      })
+  })
+  const provider = new GeoSearch.OpenStreetMapProvider()
+  
+//   const search = new GeoSearch.GeoSearchControl({
+//     notFoundMessage: 'Sorry, we cant find it',
+//     provider: new GeoSearch.OpenStreetMapProvider(),
+//     style: 'bar'
+// })
+    map.addControl(search)
