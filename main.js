@@ -3,8 +3,7 @@
     // DOM
     const searchQuery = document.getElementById('search')
     const searchBtn = document.getElementById('search-btn')
-    
-    console.log(searchQuery, searchQuery.value);
+
     // Method definition section
 
   const initMap = ({mapTile, mapAttribution, zoom = 13} = {}) => {
@@ -19,10 +18,12 @@
 
   const initRouting = ({waypoints}) => {
     L.Routing.control({
-        waypoints
+        waypoints,
+        routeWhileDragging: true,
+        geocoder: L.Control.Geocoder.nominatim()
       }).addTo(map);
 
-      console.log('Help');
+      console.log(L.Control.Geocoder);
   }
 
 
@@ -33,22 +34,26 @@
     mapAttribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   })
 
-//   initRouting({waypoints: [
-//     L.latLng(57.74, 11.94),
-//     L.latLng(57.6792, 11.949)
-//   ]})
+  initRouting({
+    waypoints: [
+      L.latLng(57.74, 11.94),
+      L.latLng(57.6792, 11.949)
+    ]
+})
  
+console.log(initRouting);
 
   // sandbox
 //   const input = document.getElementsByClassName('glass')[0]
 //   const provider = GeoSearch.OpenStreetMapProvider()
 //   const result = await provider.search({query: input.value})
 
-  // const query_addr = 'Paris'
-  searchBtn.addEventListener('click', (e) => {
+  const provider = new GeoSearch.OpenStreetMapProvider()
+
+  const searchLocation = (e, city) => {
     e.preventDefault()
     const promise = provider.search({
-        query: searchQuery.value
+        query: city
       })
     
       promise.then((value) => {
@@ -56,10 +61,14 @@
         const yCoor = value[0].y
         const label = value[0].label
         const marker = L.marker([yCoor, xCoor]).addTo(map)
+        console.log(label);
         marker.bindPopup("<b>Found location</b><br>" + label).openPopup();
       })
-  })
-  const provider = new GeoSearch.OpenStreetMapProvider()
+
+      searchQuery.value = ""
+  }
+  searchBtn.addEventListener('click', (e) => searchLocation(e, searchQuery.value))
+ 
   
 //   const search = new GeoSearch.GeoSearchControl({
 //     notFoundMessage: 'Sorry, we cant find it',
